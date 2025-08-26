@@ -1,6 +1,6 @@
 /*
   ===================================================================
-   ESP32 Color Composite Dashboard with Glow Plug (Modular)
+   ESP32 Color Composite Dashboard with Glow Plug
    -----------------------------------------------------------
    Features:
    - Each metric (oil, coolant, fuel) has its own function
@@ -8,6 +8,53 @@
    - Flashing background for critical values
    - Glow plug control with countdown timer and icon
    - No afterglow
+
+  Libraries Required:
+  -------------------
+  1. CompositeVideo:
+     - Provides the ability to output PAL/NTSC composite video from the ESP32.
+     - Handles the low-level video timing and signal generation.
+     - GitHub / installation: https://github.com/bitluni/esp32-color-pal
+     
+  2. CompositeGraphics:
+     - Built on top of CompositeVideo.
+     - Provides simple graphics primitives (drawRect, fillRect, drawBitmap, text, setHue, etc.).
+     - Handles drawing pixel-art icons and bars on the composite video screen.
+     - Usually included in the same repository as CompositeVideo.
+
+  3. Arduino core for ESP32:
+     - Make sure you have the ESP32 board definitions installed in Arduino IDE.
+     - Needed to compile and upload code to ESP32 boards.
+
+  Pin Assignments:
+  ----------------
+  - Oil pressure switch input: GPIO 2 (digital input)
+    HIGH = low pressure / warning
+    LOW  = OK
+
+  - Coolant temperature sensor: GPIO 32 (analog input)
+    Read with analogRead(), mapped to degrees Celsius
+
+  - Fuel level sensor: GPIO 33 (analog input)
+    Read with analogRead(), mapped to liters
+
+  - Glow plug button: GPIO 15 (digital input, active LOW)
+    Press button to start glow plug sequence
+
+  - Glow plug MOSFET control: GPIO 16 (digital output)
+    HIGH = turn on glow plug
+    LOW  = turn off glow plug
+
+  Other Notes:
+  ------------
+  - TV output: connect ESP32 DAC pins (usually GPIO 25 or 26) to TV composite input with proper resistor network if needed.
+  - Ensure proper power supply for ESP32 and glow plug circuit (MOSFET rated for current).
+  - Screen will display:
+      - Oil, coolant, and fuel icons with color-coded gauges
+      - Flashing background if any value is critical
+      - Glow plug countdown when activated
+  - Each metric has its own function for reading sensor and drawing the gauge for modularity.
+
   ===================================================================
 */
 
